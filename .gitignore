@@ -1,2 +1,3 @@
-.terraform
+.terraform*
 dev/.terraform
+.github/workflows/.terraform*
