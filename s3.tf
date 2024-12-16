@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "my-terraform-state-bucket" 
+  bucket = "my-terraform-state-bucket-edm112" 
 
   lifecycle {
     prevent_destroy = true
