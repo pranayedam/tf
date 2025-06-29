@@ -20,7 +20,7 @@ module "eks_al2" {
     example = {
       # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
       ami_type       = "AL2_x86_64"
-      instance_types = ["m6i.large"]
+      instance_types = ["t3.medium"]
 
       min_size = 2
       max_size = 5
