@@ -16,16 +16,15 @@ module "vpc" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "19.0.1"
+  version = "~>19.0"
 
   cluster_name    = "my-eks-cluster"
   cluster_version = "1.22"
 
   # Subnets
   vpc_id                 = module.vpc.vpc_id
-  cluster_private_subnets = module.vpc.private_subnets # Use this argument for private subnets
-  cluster_public_subnets  = module.vpc.public_subnets  # Use this argument for public subnets
-
+  subnets = module.vpc.subnets # Use this argument for private subnets
+  
   enable_irsa            = true   # Enable IAM Roles for Service Accounts (optional)
 
   # Managed Node Groups
