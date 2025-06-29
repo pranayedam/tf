@@ -23,12 +23,12 @@ module "eks" {
 
   # Subnets
   vpc_id                 = module.vpc.vpc_id
-  subnets = module.vpc.subnets # Use this argument for private subnets
+  subnet_ids = module.vpc.subnets # Use this argument for private subnets
   
   enable_irsa            = true   # Enable IAM Roles for Service Accounts (optional)
 
   # Managed Node Groups
-  managed_node_groups = {
+  eks_managed_node_groups = {
     eks_nodes = {
       desired_capacity = 2
       max_capacity     = 3
