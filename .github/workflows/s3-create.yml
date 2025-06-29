@@ -1,7 +1,7 @@
 name: Setup Backend
 
 on:
-  workflow_dispatch: # Trigger manually from GitHub UI when required
+  workflow_dispatch # Trigger manually from GitHub UI when required
 
 jobs:
   backend-setup:
