@@ -2,8 +2,7 @@ name: Deploy EKS Cluster
 
 on:
   push:
-    branches:
-      - main  # Trigger workflow whenever code changes are pushed to main branch
+    branches: [ epan ]  # Trigger workflow whenever code changes are pushed to main branch
 
 jobs:
   eks-deployment:
