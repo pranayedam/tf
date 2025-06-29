@@ -7,7 +7,7 @@ provider "aws" {
 # S3 Bucket for Terraform State
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "my-terraform-state-bucket" # Make sure this is unique globally
-
+  region = "us-east-1"
   versioning {
     enabled = true
   }
