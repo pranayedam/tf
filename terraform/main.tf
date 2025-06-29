@@ -53,32 +53,3 @@ module "vpc" {
 
   tags = local.tags
 }
-
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~>19.0"
-
-  cluster_name    = "my-eks-cluster"
-  cluster_version = "1.22"
-
-  # Subnets
-  vpc_id                 = module.vpc.vpc_id
-  subnet_ids = module.vpc.subnets # Use this argument for private subnets
-  
-  enable_irsa            = true   # Enable IAM Roles for Service Accounts (optional)
-
-  # Managed Node Groups
-  eks_managed_node_groups = {
-    eks_nodes = {
-      desired_capacity = 2
-      max_capacity     = 3
-      min_capacity     = 1
-      instance_type    = "t3.medium"
-      key_name         = "my-key-pair"  # EC2 key pair for SSH access
-    }
-  }
-
-  tags = {
-    "Name" = "eks-cluster"
-  }
-}
