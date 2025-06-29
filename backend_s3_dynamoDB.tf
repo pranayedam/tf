@@ -30,9 +30,12 @@ resource "aws_dynamodb_table" "terraform_locks" {
   name         = "terraform-locks"
   billing_mode = "PAY_PER_REQUEST"
 
+  # Define Primary Key
+  hash_key = "LockID"  # This specifies 'LockID' as the Partition Key
+
   attribute {
     name = "LockID"
-    type = "S"
+    type = "S"     # 'S' indicates that the attribute type is a String
   }
 
   tags = {
