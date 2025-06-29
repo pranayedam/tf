@@ -10,7 +10,10 @@ jobs:
     steps:
     # Step 1: Checkout Repository
     - name: Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@
+      
+    - name: Print Working Directory
+      run: pwd
 
     # Step 2: Set Up Terraform
     - name: Install Terraform
@@ -22,6 +25,12 @@ jobs:
     - name: Terraform Init
       run: terraform init
       working-directory: ./terraform
+      
+    - name: Print Working Directory
+      run: pwd
+
+    - name: Display Terraform Files
+      run: ls -l ./terraform
 
     # Step 4: Terraform Plan
     - name: Terraform Plan
