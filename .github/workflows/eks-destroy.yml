@@ -1,0 +1,33 @@
+name: Destroy EKS Cluster
+
+on:
+  workflow_dispatch: # Enable manual trigger for destroying resources
+
+jobs:
+  terraform-destroy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the Code
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    # Step 2: Set Up Terraform
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: "1.4.6" # Specify Terraform version
+
+    # Step 3: Terraform Init
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./terraform
+
+    # Step 4: Terraform Destroy
+    - name: Terraform Destroy
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+      run: terraform destroy -auto-approve
+      working-directory: ./terraform
