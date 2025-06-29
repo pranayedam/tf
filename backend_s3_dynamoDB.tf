@@ -30,12 +30,22 @@ resource "aws_dynamodb_table" "terraform_locks" {
   name         = "terraform-locks"
   billing_mode = "PAY_PER_REQUEST"
 
-  # Define Primary Key
-  hash_key = "LockID"  # This specifies 'LockID' as the Partition Key
+  hash_key = "LockID"  # Primary Key
 
   attribute {
-    name = "LockID"
-    type = "S"     # 'S' indicates that the attribute type is a String
+    name = "LockID"    # Partition Key Attribute
+    type = "S"
+  }
+
+  attribute {
+    name = "SessionID" # Global Secondary Index Attribute
+    type = "S"
+  }
+
+  global_secondary_index {
+    name            = "SessionIndex"
+    hash_key        = "SessionID" # Partition key for the secondary index
+    projection_type = "ALL"       # Include all attributes in the index
   }
 
   tags = {
