@@ -27,7 +27,7 @@ resource "aws_s3_bucket" "terraform_state" {
 
 # DynamoDB Table for State Lock
 resource "aws_dynamodb_table" "terraform_locks" {
-  name         = "terraform-locks"
+  name         = "terraform-locks-retywu"
   billing_mode = "PAY_PER_REQUEST"
 
   hash_key = "LockID"  # Primary Key
