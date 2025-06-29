@@ -20,16 +20,22 @@ module "eks" {
 
   cluster_name    = "my-eks-cluster"
   cluster_version = "1.22"
-  vpc_id          = module.vpc.vpc_id
-  subnets         = module.vpc.private_subnets
-  enable_irsa     = true
 
-  node_groups = {
+  # Subnets
+  vpc_id                 = module.vpc.vpc_id
+  cluster_private_subnets = module.vpc.private_subnets # Use this argument for private subnets
+  cluster_public_subnets  = module.vpc.public_subnets  # Use this argument for public subnets
+
+  enable_irsa            = true   # Enable IAM Roles for Service Accounts (optional)
+
+  # Managed Node Groups
+  managed_node_groups = {
     eks_nodes = {
       desired_capacity = 2
       max_capacity     = 3
       min_capacity     = 1
       instance_type    = "t3.medium"
+      key_name         = "my-key-pair"  # EC2 key pair for SSH access
     }
   }
 
