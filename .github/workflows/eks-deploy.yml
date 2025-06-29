@@ -1,51 +1,48 @@
 name: Deploy EKS Cluster
 
 on:
-  workflow_dispatch:  # Trigger workflow on push to main branch
+  push:
+    branches:
+      - main  # Trigger workflow whenever code changes are pushed to main branch
 
 jobs:
-  terraform:
+  eks-deployment:
     runs-on: ubuntu-latest
 
     steps:
     # Step 1: Checkout Repository
-    - name: Checkout Code
-      uses: actions/checkout@
-      
-    - name: Print Working Directory
-      run: pwd
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-    # Step 2: Set Up Terraform
+    # Step 2: Install Terraform
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: "1.4.6"
 
-    # Step 3: Terraform Init
-    - name: Terraform Init
+    # Step 3: Initialize Terraform for EKS
+    - name: Terraform Init for EKS
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       run: terraform init
-      working-directory: ./terraform
-      
-    - name: Print Working Directory
-      run: pwd
+      working-directory: ./terraform/
 
-    - name: Display Terraform Files
-      run: ls -l ./terraform
-
-    # Step 4: Terraform Plan
-    - name: Terraform Plan
+    # Step 4: Plan the EKS Cluster Deployment
+    - name: Terraform Plan for EKS
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       run: terraform plan
-      working-directory: ./terraform
+      working-directory: ./terraform/
 
-    # Step 5: Terraform Apply
-    - name: Terraform Apply
+    # Step 5: Apply the EKS Cluster Deployment
+    - name: Terraform Apply for EKS
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       run: terraform apply -auto-approve
-      working-directory: ./terraform
+      working-directory: ./terraform/

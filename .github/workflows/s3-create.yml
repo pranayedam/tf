@@ -1,0 +1,32 @@
+name: Setup Backend
+
+on:
+  workflow_dispatch: # Trigger manually from GitHub UI when required
+
+jobs:
+  backend-setup:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout Repository
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    # Step 2: Install Terraform
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: "1.4.6"
+
+    # Step 3: Initialize and Deploy Backend (S3 + DynamoDB)
+    - name: Terraform Init for Backend
+      run: terraform init
+      working-directory: ./
+
+    - name: Terraform Apply for Backend
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+      run: terraform apply -auto-approve
+      working-directory: ./
